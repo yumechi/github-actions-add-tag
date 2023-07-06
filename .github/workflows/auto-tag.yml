@@ -1,0 +1,23 @@
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Extract PR Comment
+        id: pr_comment
+        run: |
+          export TAG=$(echo "${{ github.event.pull_request.body }}" | grep -Po '(?<=tag: )v\d+\.\d+\.\d+')
+          if [ -n "$TAG" ]; then
+            gh release create $TAG --generate-notes
+          fi
