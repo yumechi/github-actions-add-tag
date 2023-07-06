@@ -20,8 +20,6 @@ jobs:
         id: pr_comment
         run: |
           TAG=$(echo "$PULL_REQUEST_BODY" | grep -Po '(?<=tag: )v\d+\.\d+\.\d+')
-          echo "tag: $TAG"
-          echo $PULL_REQUEST_BODY
           if [ -n "$TAG" ]; then
             gh release create $TAG --generate-notes
           fi
