@@ -18,6 +18,8 @@ jobs:
         id: pr_comment
         run: |
           export TAG=$(echo "${{ github.event.pull_request.body }}" | grep -Po '(?<=tag: )v\d+\.\d+\.\d+')
+          echo "tag: $TAG"
+          echo ${{ github.event.pull_request.body }}
           if [ -n "$TAG" ]; then
             gh release create $TAG --generate-notes
           fi
