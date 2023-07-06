@@ -26,5 +26,5 @@ jobs:
             gh release create $TAG --generate-notes
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          PULL_REQUEST_BODY : ${{ github.event.pull_request.body }}
+          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+          PULL_REQUEST_BODY: "${{ github.event.pull_request.body }}"
