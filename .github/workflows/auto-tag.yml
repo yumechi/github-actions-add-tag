@@ -5,11 +5,13 @@ on:
     branches:
       - main
       - master
+    types:
+      - closed
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,11 +19,12 @@ jobs:
       - name: Extract PR Comment
         id: pr_comment
         run: |
-          export TAG=$(echo "${{ github.event.pull_request.body }}" | grep -Po '(?<=tag: )v\d+\.\d+\.\d+')
+          TAG=$(echo "$PULL_REQUEST_BODY" | grep -Po '(?<=tag: )v\d+\.\d+\.\d+')
           echo "tag: $TAG"
-          echo ${{ github.event.pull_request.body }}
+          echo $PULL_REQUEST_BODY
           if [ -n "$TAG" ]; then
             gh release create $TAG --generate-notes
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          PULL_REQUEST_BODY : ${{ github.event.pull_request.body }}
