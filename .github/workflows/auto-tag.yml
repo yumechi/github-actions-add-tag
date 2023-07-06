@@ -21,3 +21,5 @@ jobs:
           if [ -n "$TAG" ]; then
             gh release create $TAG --generate-notes
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
